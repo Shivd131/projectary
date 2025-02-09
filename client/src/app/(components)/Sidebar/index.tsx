@@ -6,8 +6,9 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { useAppDispatch, useAppSelector } from '@/app/redux'
 import { setIsSidebarCollapsed } from '@/state'
+import { useGetProjectsQuery } from '@/state/api'
 type Props = {}
-
+// import { api, useGetProjectsQuery } from '@/state/api'
 const Sidebar = (props: Props) => {
     const [showProjects, setShowProjects] = useState(true)
     const [showPriority, setShowPriority] = useState(true)
@@ -16,7 +17,7 @@ const Sidebar = (props: Props) => {
         (state) => state.global.isSidebarCollapsed,
     );
     const sidebarClassNames = `${isSidebarCollapsed ? 'w-0 hidden' : 'w-72'} flex flex-col h-[100%] justify-between shadow-xl transition-all duration-300 ease-in-out h-full z-40 dark:bg-black overflow-y-auto bg-white w-64`
-
+    const { data: projects } = useGetProjectsQuery();
     return (
         <div className={sidebarClassNames}>
             <div className="flex min-h-[110vh] w-full flex-col justify-start">
@@ -74,6 +75,15 @@ const Sidebar = (props: Props) => {
                         <ChevronDown className="h-5 w-5" />
                     )}
                 </button>
+                {/* PROJECTS LIST */}
+                {showProjects && projects?.map((project) => (
+                    <SidebarLink
+                        key={project.id}
+                        icon={Briefcase}
+                        label={project.name}
+                        href={`/projects/${project.id}`}
+                    />
+                ))}
                 {/* PRIORITIES LINKS */}
                 <button
                     onClick={() => setShowPriority((prev) => !prev)}
