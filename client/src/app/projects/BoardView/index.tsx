@@ -1,5 +1,5 @@
 import { Task as TaskType, useGetTasksQuery, useUpdateTaskStatusMutation } from '@/state/api';
-import { EllipsisVertical, MessageSquareMore, Plus } from 'lucide-react';
+import { EllipsisVertical, Plus } from 'lucide-react';
 import React from 'react'
 import { DndProvider, useDrag, useDrop } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -213,29 +213,13 @@ const Task = (props: TaskProps) => {
                         {props.task.assignee && (
                             <Image
                                 key={props.task.assignee.userId}
-                                src={`/${props.task.assignee?.profilePictureUrl!}`}
+                                src={`/${props.task.author?.profilePictureUrl}`}
                                 alt={props.task.assignee.username}
                                 width={30}
                                 height={30}
                                 className="h-8 w-8 rounded-full border-2 border-white object-cover dark:border-dark-secondary"
                             />
                         )}
-                        {props.task.author && (
-                            <Image
-                                key={props.task.author.userId}
-                                src={`/${props.task.author?.profilePictureUrl!}`}
-                                alt={props.task.author.username}
-                                width={30}
-                                height={30}
-                                className="h-8 w-8 rounded-full border-2 border-white object-cover dark:border-dark-secondary"
-                            />
-                        )}
-                    </div>
-                    <div className="flex items-center text-gray-500 dark:text-neutral-500">
-                        <MessageSquareMore size={20} />
-                        <span className="ml-1 text-sm dark:text-neutral-400">
-                            {numberOfComments}
-                        </span>
                     </div>
                 </div>
             </div>
