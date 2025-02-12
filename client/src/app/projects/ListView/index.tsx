@@ -21,7 +21,7 @@ const ListView = ({ id, setIsModalNewTaskOpen }: { id: string; setIsModalNewTask
                     New Task
                 </button>
             </div>
-
+            
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {tasks?.map((task) => (
                     <div key={task.id} className="rounded-lg bg-white p-4 shadow-sm dark:bg-gray-800">
