@@ -1,11 +1,18 @@
 import React, { useState } from 'react'
 import { Clock, Filter, Grid3x3, List, PlusSquare, Search, Share2, Table } from 'lucide-react'
+import ModalNewProject from './ModalNewProject';
 
 const ProjectHeader = ({ activeTab, setActiveTab }: { activeTab: string; setActiveTab: (tab: string) => void }) => {
   const [isModalNewProjectOpen, setIsModalNewProjectOpen] = useState(false)
 
   return (
     <div className="border-b border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
+      <ModalNewProject
+        isOpen={isModalNewProjectOpen}
+        onClose={() => setIsModalNewProjectOpen(false)}
+      >
+
+      </ModalNewProject>
       <div className="mx-auto max-w-screen-2xl px-4 py-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -59,8 +66,8 @@ const TabButton = ({ name, icon: Icon, activeTab, setActiveTab }: TabButtonProps
     <button
       onClick={() => setActiveTab(name)}
       className={`inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${isActive
-          ? "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400"
-          : "text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-800"
+        ? "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400"
+        : "text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-800"
         }`}
     >
       <Icon className="h-4 w-4" />
