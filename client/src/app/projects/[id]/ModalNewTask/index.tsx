@@ -4,6 +4,7 @@ import React from "react";
 import { formatISO } from "date-fns";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import toast from "react-hot-toast";
 
 type Props = {
   isOpen: boolean;
@@ -19,29 +20,42 @@ const validationSchema = Yup.object({
 const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
   const [createTask, { isLoading }] = useCreateTaskMutation();
 
-  const handleSubmit = async (values: any) => {
-    const formattedStartDate = values.startDate
-      ? formatISO(new Date(values.startDate), { representation: "complete" })
-      : "";
+  const handleSubmit = async (values: any, { resetForm }: any) => {
+    try {
+      const formattedStartDate = values.startDate
+        ? formatISO(new Date(values.startDate), { representation: "complete" })
+        : "";
 
-    const formattedDueDate = values.dueDate
-      ? formatISO(new Date(values.dueDate), { representation: "complete" })
-      : "";
+      const formattedDueDate = values.dueDate
+        ? formatISO(new Date(values.dueDate), { representation: "complete" })
+        : "";
 
-    await createTask({
-      title: values.title,
-      description: values.description,
-      status: values.status,
-      priority: values.priority,
-      tags: values.tags,
-      startDate: formattedStartDate,
-      dueDate: formattedDueDate,
-      authorUserId: parseInt(values.authorUserId),
-      assignedUserId: values.assignedUserId ? parseInt(values.assignedUserId) : undefined,
-      projectId: id !== null ? Number(id) : undefined,
-    });
+      if (id === null) {
+        toast.error("Project ID is missing. Cannot create task.");
+        return;
+      }
 
-    onClose();
+      await createTask({
+        title: values.title,
+        description: values.description,
+        status: values.status,
+        priority: values.priority,
+        tags: values.tags,
+        startDate: formattedStartDate,
+        dueDate: formattedDueDate,
+        authorUserId: parseInt(values.authorUserId),
+        assignedUserId: values.assignedUserId ? parseInt(values.assignedUserId) : undefined,
+        projectId: Number(id),
+      }).unwrap();
+      
+      toast.success("Task created successfully");
+      resetForm();
+      onClose();
+    } catch (error: any) {
+      toast.error(
+        error.message || "Failed to create task. Please try again."
+      );
+    }
   };
 
   const initialValues = {

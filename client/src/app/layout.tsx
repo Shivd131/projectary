@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Inconsolata } from "next/font/google";
 import "./globals.css";
 import DashboardWrapper from "./dashboardWrapper";
-
+import { Toaster } from "react-hot-toast";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
@@ -26,7 +26,38 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${inconsolata.variable} antialiased`}>
-        <DashboardWrapper>{children}</DashboardWrapper>
+        <DashboardWrapper>
+          {children}
+          <Toaster
+            position="bottom-right"
+            toastOptions={{
+              style: {
+                background: '#080b11',
+                color: '#fff',
+                borderRadius: '4px',
+                padding: '12px 16px',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+                fontSize: '14px',
+                maxWidth: '350px',
+                border: '1px solid #212d45',
+              },
+              success: {
+                duration: 3000,
+                iconTheme: {
+                  primary: '#212d45',
+                  secondary: '#FFFFFF',
+                },
+              },
+              error: {
+                duration: 4000,
+                iconTheme: {
+                  primary: '#EF4444',
+                  secondary: '#FFFFFF',
+                },
+              },
+            }}
+          />
+        </DashboardWrapper>
       </body>
     </html>
   );
