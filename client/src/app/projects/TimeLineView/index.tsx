@@ -81,16 +81,18 @@ const Timeline = ({ id, setIsModalNewTaskOpen }: Props) => {
                 <div className="max-w-full overflow-x-auto">
                     <div style={{
                         minWidth: displayOptions.viewMode === ViewMode.Month ? '768px' : '600px',
-                        maxWidth: '100%'
+                        maxWidth: '100%',
+                        backgroundColor: isDarkMode ? "#ffffff" : "#ffffff",
                     }}>
                         <Gantt
-                            
+
                             tasks={ganttTasks}
                             {...displayOptions}
                             columnWidth={displayOptions.viewMode === ViewMode.Month ? 150 : 100}
                             listCellWidth="100px"
                             barBackgroundColor={isDarkMode ? "#111926" : "#aeb8c2"}
-                            barBackgroundSelectedColor={isDarkMode ? "#111926" : "#9ba1a6"}
+                            barBackgroundSelectedColor={isDarkMode ? "#9ba1a6" : "#9ba1a6"}
+
                         />
                     </div>
                 </div>
