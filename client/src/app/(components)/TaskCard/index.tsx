@@ -15,7 +15,7 @@ type Props = {
 
 const TaskCard = ({ task }: Props) => {
     return (
-        <Card className="dark:bg-gray-500">
+        <Card className="dark:bg-dark-secondary dark:text-white">
             <CardContent className="space-y-4">
                 <Typography gutterBottom variant="h5" component="div">
                     {task.title}
@@ -35,9 +35,9 @@ const TaskCard = ({ task }: Props) => {
                     <Badge variant="standard">{task.priority}</Badge>
                 </div>
                 {task.tags && (
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2 dark:text-gray-400">
                         {task.tags.split(',').map((tag, index) => (
-                            <Chip key={index} label={tag} variant="outlined" />
+                            <Chip key={index} label={tag} variant="outlined" className="dark:text-gray-400"/>
                         ))}
                     </div>
                 )}

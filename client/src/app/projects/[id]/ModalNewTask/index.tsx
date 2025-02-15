@@ -30,7 +30,7 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
         ? formatISO(new Date(values.dueDate), { representation: "complete" })
         : "";
 
-      if (id === null) {
+      if ((id === null && !values.projectId) || !values.title || !values.authorUserId) {
         toast.error("Project ID is missing. Cannot create task.");
         return;
       }
@@ -45,9 +45,9 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
         dueDate: formattedDueDate,
         authorUserId: parseInt(values.authorUserId),
         assignedUserId: values.assignedUserId ? parseInt(values.assignedUserId) : undefined,
-        projectId: Number(id),
+        projectId: id !== null ? Number(id) : Number(values.projectId),
       }).unwrap();
-      
+
       toast.success("Task created successfully");
       resetForm();
       onClose();
@@ -165,6 +165,14 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: Props) => {
               className={inputStyles}
               placeholder="Assigned User ID"
             />
+            {id === null && (
+              <Field
+                type="text"
+                name="projectId"
+                className={inputStyles}
+                placeholder="Project ID"
+              />
+            )}
 
             <button
               type="submit"
