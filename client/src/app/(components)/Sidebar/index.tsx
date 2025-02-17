@@ -6,7 +6,8 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { useAppDispatch, useAppSelector } from '@/app/redux'
 import { setIsSidebarCollapsed } from '@/state'
-import { useGetProjectsQuery } from '@/state/api'
+import { useGetAuthUserQuery, useGetProjectsQuery } from '@/state/api'
+import { signOut } from 'aws-amplify/auth'
 
 const Sidebar = () => {
     const [showProjects, setShowProjects] = useState(true)
@@ -16,7 +17,17 @@ const Sidebar = () => {
     const { data: projects } = useGetProjectsQuery()
 
     const sidebarClassNames = `${isSidebarCollapsed ? 'w-0 hidden' : 'w-64'} bg-white dark:bg-gray-900 flex flex-col h-full shadow-lg transition-all duration-300 ease-in-out border-r border-gray-100 dark:border-gray-800`
+    const { data: currentUser } = useGetAuthUserQuery({});
 
+    const handleSignOut = async () => {
+        try {
+            await signOut();
+        } catch (error) {
+            console.error("Error signing out", error);
+        }
+    }
+    if (!currentUser) return null;
+    const currentUserDetails = currentUser?.userDetails;
     return (
         <div className={sidebarClassNames}>
             <div className="flex flex-col h-full">
@@ -113,6 +124,32 @@ const Sidebar = () => {
                     </div>
                 </nav>
             </div>
+            <div className="z-10 mt-32 flex w-full flex-col items-center gap-4 bg-white px-8 py-4 dark:bg-black md:hidden">
+                <div className="flex w-full items-center">
+                    <div className="align-center flex h-9 w-9 justify-center">
+                        {!!currentUserDetails?.profilePictureUrl ? (
+                            <Image
+                                src={`https://pm-s3-images.s3.us-east-2.amazonaws.com/${currentUserDetails?.profilePictureUrl}`}
+                                alt={currentUserDetails?.username || "User Profile Picture"}
+                                width={100}
+                                height={50}
+                                className="h-full rounded-full object-cover"
+                            />
+                        ) : (
+                            <User className="h-6 w-6 cursor-pointer self-center rounded-full dark:text-white" />
+                        )}
+                    </div>
+                    <span className="mx-3 text-gray-800 dark:text-white">
+                        {currentUserDetails?.username}
+                    </span>
+                    <button
+                        className="self-start rounded bg-blue-400 px-4 py-2 text-xs font-bold text-white hover:bg-blue-500 md:block"
+                        onClick={handleSignOut}
+                    >
+                        Sign out
+                    </button>
+                </div>
+            </div>
         </div>
     )
 }
@@ -130,8 +167,8 @@ const SidebarLink = ({ href, icon: Icon, label }: SidebarLinkProps) => {
     return (
         <Link href={href}>
             <div className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${isActive
-                    ? "bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400"
-                    : "text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
+                ? "bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400"
+                : "text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
                 }`}>
                 <Icon className={`h-4 w-4 ${isActive ? "text-blue-600 dark:text-blue-400" : ""}`} />
                 <span className="text-sm font-medium">{label}</span>

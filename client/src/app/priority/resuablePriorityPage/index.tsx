@@ -6,7 +6,7 @@ import Header from "@/app/(components)/Header"
 import ModalNewTask from "@/app/projects/[id]/ModalNewTask"
 import TaskCard from "@/app/(components)/TaskCard"
 import { dataGridClassNames, dataGridSxStyles } from "@/lib/utils"
-import { type Priority, type Task, useGetTasksByUserQuery } from "@/state/api"
+import { type Priority, type Task, useGetAuthUserQuery, useGetTasksByUserQuery } from "@/state/api"
 import { DataGrid, type GridColDef } from "@mui/x-data-grid"
 
 type Props = {
@@ -47,10 +47,10 @@ const columns: GridColDef[] = [
 const ReusablePriorityPage = ({ priority }: Props) => {
   const [view, setView] = useState("list")
   const [isModalNewTaskOpen, setIsModalNewTaskOpen] = useState(false)
+  const { data: currentUser } = useGetAuthUserQuery({});
+  const userId = currentUser?.userDetails?.userId ?? null;
 
-  const userId = 1 // Replace with actual user ID when available
-
-  const { data: tasks, isLoading, isError: isTasksError } = useGetTasksByUserQuery(userId)
+  const { data: tasks, isLoading, isError: isTasksError } = useGetTasksByUserQuery(userId || 0, { skip: userId === null })
 
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode)
 
@@ -76,8 +76,8 @@ const ReusablePriorityPage = ({ priority }: Props) => {
         <div className="inline-flex rounded-md shadow-sm" role="group">
           <button
             className={`rounded-l-lg border px-4 py-2 text-sm font-medium transition-colors focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${view === "list"
-                ? "bg-blue-50 text-blue-700 hover:bg-blue-100 hover:text-blue-800"
-                : "bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+              ? "bg-blue-50 text-blue-700 hover:bg-blue-100 hover:text-blue-800"
+              : "bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900"
               }`}
             onClick={() => setView("list")}
           >
@@ -85,8 +85,8 @@ const ReusablePriorityPage = ({ priority }: Props) => {
           </button>
           <button
             className={`rounded-r-lg border px-4 py-2 text-sm font-medium transition-colors focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${view === "table"
-                ? "bg-blue-50 text-blue-700 hover:bg-blue-100 hover:text-blue-800"
-                : "bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+              ? "bg-blue-50 text-blue-700 hover:bg-blue-100 hover:text-blue-800"
+              : "bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900"
               }`}
             onClick={() => setView("table")}
           >
