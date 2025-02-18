@@ -1,6 +1,6 @@
 # projectary
 
-Projectary is a comprehensive project management application built with Next.js, TypeScript, and Node.js. It features task management, team collaboration, and multiple project views including board, list, and timeline perspectives.
+A project management application built with Next.js, TypeScript, and Node.js. Uses RTK queries for sending requests from the client. Uses cognito auth, with frontend deployed on Amplify and backend on Amazon ec2.
 
 ## 📁 Directory Structure
 
@@ -19,7 +19,7 @@ Projectary is a comprehensive project management application built with Next.js,
             └── routes/
 ```
 
-[Full directory structure details provided at the bottom of this README]
+[Full directory structure at the bottom]
 
 ## ✨ Features
 
