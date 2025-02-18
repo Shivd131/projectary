@@ -98,6 +98,18 @@ The application will be available at:
 - PostgreSQL
 - TypeScript
 
+### AWS Cloud Infrastructure
+- **Amazon RDS**: MySQL database instance
+- **Amazon EC2**: Hosts the Node.js backend server
+- **AWS Amplify**: Manages frontend deployment and hosting with CI/CD
+- **Amazon Cognito**: Handles user authentication and authorization
+- **Amazon VPC**: Provides isolated network infrastructure
+- **Amazon API Gateway**: Manages API endpoints and request routing
+- **AWS Lambda**: serverless functions cognito
+
+###AWS DIAGRAM
+![Projectary Screenshot](./assets/projectary-screenshot.png)
+
 ## 🔄 API Endpoints
 
 - `/api/projects` - Project management
