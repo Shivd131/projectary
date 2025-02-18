@@ -148,7 +148,7 @@ The application will be available at:
 - Node.js
 - Express
 - Prisma
-- PostgreSQL
+- MySQL
 - TypeScript
 
 ### AWS Cloud Infrastructure
