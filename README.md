@@ -107,8 +107,11 @@ The application will be available at:
 - **Amazon API Gateway**: Manages API endpoints and request routing
 - **AWS Lambda**: serverless functions cognito
 
-###AWS DIAGRAM
-![Projectary Screenshot](./assets/projectary-screenshot.png)
+### AWS DIAGRAM
+![Projectary Screenshot](./architecture.png)
+
+### VPC RESOURCE MAP
+![Projectary Screenshot](./vpc.png)
 
 ## 🔄 API Endpoints
 
