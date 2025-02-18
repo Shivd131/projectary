@@ -64,6 +64,59 @@ npx prisma migrate dev
 npx prisma db seed
 ```
 
+
+4. Set up AWS Cognito and Authentication:
+
+   a. Create a User Pool in AWS Cognito:
+   - Go to AWS Cognito Console
+   - Create a new User Pool
+   - Configure sign-in options (enable email sign-in)
+   - Configure security requirements
+   - Required attributes: email, username
+   - Create an app client (without secret)
+
+   b. Install required auth packages in client:
+   ```bash
+   cd client
+   npm install @aws-amplify/ui-react aws-amplify
+   ```
+
+   c. Configure environment variables in client (.env.local):
+   ```bash
+   NEXT_PUBLIC_API_BASE_URL=http://localhost:3001
+   NEXT_PUBLIC_COGNITO_USER_POOL_ID=your-user-pool-id
+   NEXT_PUBLIC_COGNITO_USER_POOL_CLIENT_ID=your-app-client-id
+   ```
+
+   d. Required Cognito User Pool Settings:
+   - Username attributes: Allow email and username
+   - Password policy: Configure as needed
+   - MFA: Optional (disabled by default)
+   - Email verification: Required
+   - Required attributes: 
+     - email
+     - username
+
+The application uses AWS Amplify's Authenticator component with custom form fields for:
+- Username
+- Email
+- Password
+- Password confirmation
+
+5. Set up the database:
+```bash
+cd server
+npx prisma generate
+npx prisma migrate dev
+npx prisma db seed
+```
+
+### Authentication Resources
+- [AWS Amplify UI React Documentation](https://ui.docs.amplify.aws/react/connected-components/authenticator)
+- [Amplify JavaScript Configuration](https://docs.amplify.aws/lib/client-configuration/configuring-amplify/q/platform/js/)
+- [Cognito User Pool Configuration](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings.html)
+
+
 ## 🏃‍♂️ Running the Application
 
 1. Start the server:
@@ -121,7 +174,8 @@ The application will be available at:
 - `/api/teams` - Team management
 - `/api/search` - Search functionality
 
-## 🤝 Contributing(The UI might have some "features"—aka bugs. Feel free to tame them :))
+## 🤝 Contributing
+(The UI might have some "features"—aka bugs. Feel free to tame them)
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/amazing-feature`)
